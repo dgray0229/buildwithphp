@@ -1,0 +1,13 @@
+{
+    "name": "devingray/buildwebsiteswithphp",
+    "authors": [
+        {
+            "name": "Devin G",
+            "email": "devin.gray92@gmail.com"
+        }
+    ],
+    "require": {
+        "monolog/monolog": "^1.18",
+        "slim/slim": "^3.3"
+    }
+}
