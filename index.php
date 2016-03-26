@@ -15,10 +15,12 @@ use Monolog\Handler\StreamHandler;
 // $log->addWarning('Zoinks');
 
 $app = new \Slim\App(["settings" => $config]);
-$app->get('/hello/{name}', function (Request $request, Response $response) {
-    $name = $request->getAttribute('name');
-    $response->getBody()->write("Hello, $name");
-
-    return $response;
+$app->get('/', function(){
+  echo 'Hello, this is the home page.';
 });
+
+$app->get('/contact', function(){
+  echo 'Feel free to contact us.';
+});
+
 $app->run();
