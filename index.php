@@ -1,10 +1,7 @@
 <?php
-
-require 'vendor/autoload.php';
-
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
-
+require 'vendor/autoload.php';
 
 date_default_timezone_set('America/Los_angeles');
 
@@ -15,40 +12,42 @@ use Monolog\Handler\StreamHandler;
 // $log->pushHandler(new Monolog\Handler\StreamHandler('app.log', Logger::WARNING));
 // $log->addWarning('Zoinks');
 
-// Create and configure Slim app
+// Configure App Settings
+
 $configuration = [
-  'settings' => [
-      'displayErrorDetails' => true,
-  ],
+    'settings' => [
+        'displayErrorDetails' => true,
+    ],
 ];
+
+$c = new \Slim\Container($configuration);
+
+// Create App
+$app = new \Slim\App($c);
 // Get container
 $container = $app->getContainer();
 
-// Register componet on container
-$container['view'] = function ($container) {
-  $view = new \Slim\Views\Twig('templates', [
-    'cache' => false
-  ]);
-  $view->addExtension(new \Slim\Views\TwigExtension(
-    $container['router'],
-    $container['request']->getUri()
-  ));
+// Register component on container
+$container['view'] = function ($c) {
+    $view = new \Slim\Views\Twig('templates', [
+        'cache' => false
+    ]);
+    // Instantiate and add Slim specific extension
+    $basePath = rtrim(str_ireplace('index.php', '', $c['request']->getUri()->getBasePath()), '/');
+    $view->addExtension(new Slim\Views\TwigExtension($c['router'], $basePath));
 
-  return $view;
+    return $view;
 };
-
-// Creat App
-$app = new \Slim\App($container);
 
 // Render Twig template in route
 $app->get('/', function ($request, $response, $args) {
-  return $this->view->render($response, 'index.html', [
+  return $this->view->render($response, 'about.twig', [
     'name' => $args['name']
   ]);
-})->setName('index');
+})->setName('about');
 
 $app->get('/contact', function ($request, $response, $args) {
-  return $this->view->render($response, 'contact.html', [
+  return $this->view->render($response, 'contact.twig', [
     'name' => $args['name']
   ]);
 })->setName('contact');
