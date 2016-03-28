@@ -24,6 +24,7 @@ $c = new \Slim\Container($configuration);
 
 // Create App
 $app = new \Slim\App($c);
+
 // Get container
 $container = $app->getContainer();
 
@@ -32,6 +33,7 @@ $container['view'] = function ($c) {
     $view = new \Slim\Views\Twig('templates', [
         'cache' => false
     ]);
+
     // Instantiate and add Slim specific extension
     $basePath = rtrim(str_ireplace('index.php', '', $c['request']->getUri()->getBasePath()), '/');
     $view->addExtension(new Slim\Views\TwigExtension($c['router'], $basePath));
