@@ -46,7 +46,7 @@ $app->get('/', function ($request, $response, $args) {
   ]);
 })->setName('about');
 
-$app->get('/contact', function ($request, $response, $args) {
+$app->get('/{name}', function ($request, $response, $args) {
   return $this->view->render($response, 'contact.twig', [
     'name' => $args['name']
   ]);
