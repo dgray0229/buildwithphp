@@ -48,14 +48,27 @@ $app->get('/', function ($request, $response, $args) {
   ]);
 })->setName('about');
 
-$app->get('/{name}', function ($request, $response, $args) {
+$app->get('/contact', function ($request, $response, $args) {
   return $this->view->render($response, 'contact.twig', [
     'name' => $args['name']
   ]);
 })->setName('contact');
 
 $app->post('/contact', function ($request, $response, $args) {
-  var_dump($app->request->post());
+  $body = $this->request->getParsedBody();
+  $name = $body['name'];
+  $email =$body['email'];
+  $msg = $body['msg'];
+  $uri = $request->getUri();
+
+  if(!empty($name) && !empty($email) && !empty($msg)) {
+    $cleanName = filter_var($name, FILTER_SANATIZE_STRING);
+    $cleanEmail = filter_var($email, FILTER_SANATIZE_EMAIL);
+    $cleanMsg = filter_var($msg, FILTER_SANATIZE_STRING);
+  } else {
+    //message the user that there was a problem
+    return $response->withHeader('Location', $uri);
+  }
 });
 
 // Run app
