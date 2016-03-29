@@ -54,5 +54,9 @@ $app->get('/{name}', function ($request, $response, $args) {
   ]);
 })->setName('contact');
 
+$app->post('/contact', function ($request, $response, $args) {
+  var_dump($app->request->post());
+});
+
 // Run app
 $app->run();
