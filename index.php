@@ -57,9 +57,10 @@ $app->get('/contact', function ($request, $response, $args) {
 $app->post('/contact', function ($request, $response, $args) {
   $body = $this->request->getParsedBody();
   $name = $body['name'];
-  $email =$body['email'];
+  $email = $body['email'];
   $msg = $body['msg'];
   $uri = $request->getUri();
+  $basePath = $body['index'];
 
   if(!empty($name) && !empty($email) && !empty($msg)) {
     $cleanName = filter_var($name, FILTER_SANATIZE_STRING);
@@ -71,5 +72,35 @@ $app->post('/contact', function ($request, $response, $args) {
   }
 });
 
+// Swiftmailer setup
+// Create the Transport
+$transport = Swift_MailTransport::newInstance();
+
+// Create the Mailer using your created Transport
+$mailer = \Swift_Mailer::newInstance($transport);
+// Create a message
+$message = Swift_Message::newInstance()
+  ->setSubject('Thank you for your input')
+  ->setFrom(array($cleanEmail => $cleanName))
+  ->setTo(array('devin@devingray.me', 'devin.gray92@gmail.com' => 'Devin Gray'))
+  ->setBody($cleanMsg);
+
+// Send the message
+if(!$mailer->send($message, $errors)) {
+  echo "Error: " . $logger->dump();
+} else {
+  $result = $mailer->send($message);
+}
+
+
+// After the message sends
+if ($result > 0) {
+  // send a message that says thank you
+  return $response->withHeader('Location', $basePath);
+} else {
+  // send a message to the user that the message failed to send
+  // log that there was an error
+  return $response->withHeader('Location', $uri);
+}
 // Run app
 $app->run();

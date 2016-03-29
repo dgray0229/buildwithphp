@@ -12,8 +12,8 @@
         "twig/twig": "^1.24",
         "Slim/Slim": "^3.3",
         "slim/twig-view": "^2.1",
-        "slim/twig-view": "^2.1",
         "slim/php-view": "^2.1",
-        "psr/http-message": "^1.0"
+        "psr/http-message": "^1.0",
+        "swiftmailer/swiftmailer": "^5.4"
     }
 }
