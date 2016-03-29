@@ -8,10 +8,6 @@ date_default_timezone_set('America/Los_angeles');
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
-// $log = new Logger('name');
-// $log->pushHandler(new Monolog\Handler\StreamHandler('app.log', Logger::WARNING));
-// $log->addWarning('Zoinks');
-
 // Configure App Settings
 
 $configuration = [
@@ -55,52 +51,63 @@ $app->get('/contact', function ($request, $response, $args) {
 })->setName('contact');
 
 $app->post('/contact', function ($request, $response, $args) {
+
+  // Form Variables
   $body = $this->request->getParsedBody();
   $name = $body['name'];
   $email = $body['email'];
-  $msg = $body['msg'];
+  $message = $body['msg'];
   $uri = $request->getUri();
   $basePath = $body['index'];
+  // Form variables
+  $cleanName = filter_var($name, FILTER_SANATIZE_STRING);
+  $cleanEmail = filter_var($email, FILTER_SANATIZE_EMAIL);
+  $cleanMessage = filter_var($message, FILTER_SANATIZE_STRING);
 
-  if(!empty($name) && !empty($email) && !empty($msg)) {
-    $cleanName = filter_var($name, FILTER_SANATIZE_STRING);
-    $cleanEmail = filter_var($email, FILTER_SANATIZE_EMAIL);
-    $cleanMsg = filter_var($msg, FILTER_SANATIZE_STRING);
-  } else {
+  // Swiftmailer setup
+  // Start a Session
+  if (!session_id()) @session_start();
+
+  // Instantiate the class
+  $msg = new \Plasticbrain\FlashMessages\FlashMessages();
+
+  if (empty($cleanName) || empty($cleanEmail) || empty($cleanMessage)) {
     //message the user that there was a problem
-    return $response->withHeader('Location', $uri);
+    // return $response->withHeader('Location', $uri);
+    $msg->warning('Please make sure that you have all of the field values filled in correctly.', strval($uri));
+    $msg->display();
   }
-});
 
-// Swiftmailer setup
-// Create the Transport
-$transport = Swift_MailTransport::newInstance();
+  // Create the Transport
+  $transport = Swift_MailTransport::newInstance();
 
-// Create the Mailer using your created Transport
-$mailer = \Swift_Mailer::newInstance($transport);
-// Create a message
-$message = Swift_Message::newInstance()
-  ->setSubject('Thank you for your input')
-  ->setFrom(array($cleanEmail => $cleanName))
-  ->setTo(array('devin@devingray.me', 'devin.gray92@gmail.com' => 'Devin Gray'))
-  ->setBody($cleanMsg);
+  // Create the Mailer using your created Transport
+  $mailer = \Swift_Mailer::newInstance($transport);
+  // Create a message
+  $swiftMessage = Swift_Message::newInstance()
+    ->setSubject('Thank you for your input')
+    ->setFrom(array($cleanEmail => $cleanName))
+    ->setTo(array('devin@devingray.me', 'devin.gray92@gmail.com' => 'Devin Gray'))
+    ->setBody($cleanMessage);
 
-// Send the message
-if(!$mailer->send($message, $errors)) {
-  echo "Error: " . $logger->dump();
-} else {
-  $result = $mailer->send($message);
-}
+  // Send the message
+  $result = $mailer->send($swiftMessage);
+
+  // Add messages
+  // After the message sends
+    if ($result > 0) {
+      // send a message that says thank you
+      // return $response->withHeader('Location', $basePath);
+      $msg->success('Your message has been sent. Thank you!', strval($uri));
+    } else {
+      // send a message to the user that the message failed to send
+      // log that there was an error
+      $msg->warning('I\'m sorry. There was an issue sending your mail. Please try again.', strval($uri));
+    }
+    $msg->display();
 
 
-// After the message sends
-if ($result > 0) {
-  // send a message that says thank you
-  return $response->withHeader('Location', $basePath);
-} else {
-  // send a message to the user that the message failed to send
-  // log that there was an error
-  return $response->withHeader('Location', $uri);
-}
+}); // End of post submission
+
 // Run app
 $app->run();

@@ -9,6 +9,7 @@ return array(
     'Slim\\Views\\' => array($vendorDir . '/slim/twig-view/src', $vendorDir . '/slim/php-view/src'),
     'Slim\\' => array($vendorDir . '/slim/slim/Slim'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
+    'Plasticbrain\\FlashMessages\\' => array($vendorDir . '/plasticbrain/php-flash-messages/src'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Interop\\Container\\' => array($vendorDir . '/container-interop/container-interop/src/Interop/Container'),
     'FastRoute\\' => array($vendorDir . '/nikic/fast-route/src'),

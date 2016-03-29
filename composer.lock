@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a481b2c2adb5c4c02fd782eb844965ef",
-    "content-hash": "88011a3cebc2977feea3548ad34ecb4c",
+    "hash": "5f23263641d85356c4b029c1db730509",
+    "content-hash": "8d1c90eefa021faba25a8b167344305d",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -200,6 +200,48 @@
                 "dependency injection"
             ],
             "time": "2015-09-11 15:10:35"
+        },
+        {
+            "name": "plasticbrain/php-flash-messages",
+            "version": "v1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/plasticbrain/PhpFlashMessages.git",
+                "reference": "5de84d93027025ed6f5da988a5d6f932c9b69081"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/plasticbrain/PhpFlashMessages/zipball/5de84d93027025ed6f5da988a5d6f932c9b69081",
+                "reference": "5de84d93027025ed6f5da988a5d6f932c9b69081",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Plasticbrain\\FlashMessages\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mike Everhart",
+                    "email": "mike@plasticbrain.net"
+                }
+            ],
+            "description": "A modern take on PHP session-based flash messages",
+            "keywords": [
+                "bootstrap",
+                "flash",
+                "messages",
+                "session"
+            ],
+            "time": "2016-02-21 07:59:54"
         },
         {
             "name": "psr/http-message",
