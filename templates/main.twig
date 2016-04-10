@@ -15,22 +15,23 @@
 </head>
 
 <body>
-<!--
-  <div id="feedback" class="success">
-    <h3>Success!</h3>
-    <p>You're reading all about Emerson.</p>
-  </div>
--->
-
-
+  {% include 'flash.twig' %}
   <header>
     <h1>Ralph Waldo Emerson</h1>
     <nav>
-      <a href="{{ path_for('about', { 'name': 'about' }) }}" class="selected">About</a>
-      <a href="{{ path_for('contact', { 'name': 'contact' }) }}" class="selected">Contact</a>
+      {% if path_for(app.request.attributes.get('_route')) == '/' %}
+        <a href="{{ path_for('about', { 'name': 'about' }) }}" class="selected" >About</a>
+      {% else %}
+        <a href="{{ path_for('about', { 'name': 'about' }) }}">About</a>
+      {% endif %}
+
+      {% if path_for(app.request.attributes.get('_route')) == '/' %}
+        <a href="{{ path_for('contact', { 'name': 'contact' }) }}" class="selected" >Contact</a>
+      {% else %}
+        <a href="{{ path_for('contact', { 'name': 'contact' }) }}">Contact</a>
+      {% endif %}
     </nav>
   </header>
-
   <div class="emerson">
     {% block hero %}<img src="images/emerson.jpg" alt="Picture of Ralph Waldo Emerson"> {% endblock hero %}
   </div>
@@ -44,8 +45,17 @@
     {% block footer %}
     <p>A project from <strong><a href="http://teamtreehouse.com">Treehouse</a></strong></p>
     <nav>
-      <a href="{{ path_for('about', { 'name': 'about' }) }}" class="selected">About</a>
-      <a href="{{ path_for('contact', { 'name': 'contact' }) }}" class="selected">Contact</a>
+      {% if path_for(app.request.attributes.get('_route')) == '/' %}
+        <a href="{{ path_for('about', { 'name': 'about' }) }}" class="selected" >About</a>
+      {% else %}
+        <a href="{{ path_for('about', { 'name': 'about' }) }}">About</a>
+      {% endif %}
+
+      {% if path_for(app.request.attributes.get('_route')) == '/' %}
+        <a href="{{ path_for('contact', { 'name': 'contact' }) }}" class="selected" >Contact</a>
+      {% else %}
+        <a href="{{ path_for('contact', { 'name': 'contact' }) }}">Contact</a>
+      {% endif %}
     </nav>
     {% endblock footer %}
   </footer>
