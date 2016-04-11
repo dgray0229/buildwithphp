@@ -19,13 +19,13 @@
   <header>
     <h1>Ralph Waldo Emerson</h1>
     <nav>
-      {% if path_for(app.request.attributes.get('_route')) == '/' %}
+      {% if path_for(app.request.attributes.get()) == '/' %}
         <a href="{{ path_for('about', { 'name': 'about' }) }}" class="selected" >About</a>
       {% else %}
         <a href="{{ path_for('about', { 'name': 'about' }) }}">About</a>
       {% endif %}
 
-      {% if path_for(app.request.attributes.get('_route')) == '/' %}
+      {% if path_for(app.request.attributes.get()) == '/' %}
         <a href="{{ path_for('contact', { 'name': 'contact' }) }}" class="selected" >Contact</a>
       {% else %}
         <a href="{{ path_for('contact', { 'name': 'contact' }) }}">Contact</a>
@@ -45,13 +45,13 @@
     {% block footer %}
     <p>A project from <strong><a href="http://teamtreehouse.com">Treehouse</a></strong></p>
     <nav>
-      {% if path_for(app.request.attributes.get('_route')) == '/' %}
+      {% if path_for(app.request.attributes.get()) == '/' %}
         <a href="{{ path_for('about', { 'name': 'about' }) }}" class="selected" >About</a>
       {% else %}
         <a href="{{ path_for('about', { 'name': 'about' }) }}">About</a>
       {% endif %}
 
-      {% if path_for(app.request.attributes.get('_route')) == '/' %}
+      {% if path_for(app.request.attributes.get()) == '/' %}
         <a href="{{ path_for('contact', { 'name': 'contact' }) }}" class="selected" >Contact</a>
       {% else %}
         <a href="{{ path_for('contact', { 'name': 'contact' }) }}">Contact</a>
