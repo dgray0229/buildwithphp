@@ -1,6 +1,6 @@
 # Build a Website with PHP
 
-[Heroke](https://tribute-page-php.herokuapp.com/)|[Build With PHP Site](http://buildwithphp.devingrayllc.com)
+[Heroku Project Page](https://tribute-page-php.herokuapp.com/) | [Build With PHP Site](http://buildwithphp.devingrayllc.com)
 
 This is a basic website using modern MVC frameworks.
 
